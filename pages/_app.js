@@ -5,11 +5,10 @@ import "../styles/globals.css";
 
 export default function App({ Component, pageProps }) {
   return (
-    <>
       <Layout>
         <Component {...pageProps} /> 
+        {/* 이 컴포넌트 태그가 Layout의 매개변수인 칠드런이다. */}
         {/* 페이지프롭스에 getServerSideProps함수의 반환값 전달 */}
       </Layout>
-    </>
   );
 }
