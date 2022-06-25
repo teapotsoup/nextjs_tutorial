@@ -1,13 +1,23 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: false,
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
+const API_KEY = process.env.API_KEY;
+
+module.exports  = {
+  reactStrictMode: true,
+  async redirects(){
+    return [
+      {
+        source:"/old-blog/:path*",
+        destination:"/new-sexy-blog/:path*",
+        permanent:false
+      }
+    ]
   },
+  async rewrites(){
+    return [
+      {
+        source:"/api/movies",
+        destination:`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
+      }
+    ]
+  }
 }
 
-module.exports = nextConfig
