@@ -1,14 +1,29 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import Seo from "../components/Seo";
 
-export default function Home({results}) {
+export default function Home({ results }) {
+  const router = useRouter();
+  const onClick = (id, title) => {
+    router.push(`/movies/${title}/${id}`);//사진을 눌러도 라우터 함수를 통해 엔드포인트로 이동가능
+  };
   return (
-    <div  className="container">
-      <Seo title="Home" /> 
+    <div className="container">
+      <Seo title="Home" />
       {/* 각 페이지의 헤드 태그 내 타이틀이다. */}
       {results?.map((movie) => (
-        <div className="movie" key={movie.id}>
-        <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-          <h4>{movie.original_title}</h4>
+        <div
+          onClick={() => onClick(movie.id, movie.original_title)}
+          className="movie"
+          key={movie.id}
+        >
+          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
+          <h4>
+            <Link href={`/movies/${movie.original_title}/${movie.id}`}>
+              <a>{movie.original_title}</a>
+            </Link>
+
+          </h4>
         </div>
       ))}
       <style jsx>{`
@@ -18,8 +33,8 @@ export default function Home({results}) {
           padding: 20px;
           gap: 20px;
         }
-        .movie{
-          cursor:pointer
+        .movie {
+          cursor: pointer;
         }
         .movie img {
           max-width: 100%;
@@ -39,7 +54,6 @@ export default function Home({results}) {
   );
 }
 
-
 //해당 함수 이름은 고정이다. 백엔드 서버에서 실행되는 함수.
 //React.js의 CSR에서 SSR로 바꿔주는 함수.
 //CSR 절차
@@ -50,15 +64,13 @@ export default function Home({results}) {
 
 //준비과정을 보여주지 않고 HTML이 완전한 상태로 준비됐을때 띄워주는 것이 SSR
 //준비 안되면 로딩 상태 화면이 아닌 그냥 흰화면.
-export async function getServerSideProps(){
+export async function getServerSideProps() {
   const { results } = await (
-    await fetch(
-      `http://localhost:3000/api/movies`
-    )
+    await fetch(`http://localhost:3000/api/movies`)
   ).json();
   return {
-    props:{
+    props: {
       results, //이걸 props로써 페이지에 전달
-    }
-  }
+    },
+  };
 }

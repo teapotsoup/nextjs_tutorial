@@ -7,4 +7,6 @@
     <li>TMDB API 가져와 데이터 바인딩</li>
     <li>style 태그 위주 사용 CSS 적용</li>
     <li>Layout.js로 반복되는 컴포넌트 최소화</li>
+    <li>커스텀 404 페이지</li>
+    <li>다양한 URL path 사용시 용이한 다이나믹 루트 설정 [...params].js</li>
 </ul>
